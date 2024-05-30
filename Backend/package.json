@@ -1,0 +1,25 @@
+{
+  "name": "edokan-server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "lib/server.js",
+  "scripts": {
+    "build": "tsc",
+    "build:watch": "tsc --watch",
+    "dev": "concurrently \"npm run build:watch\" \"nodemon lib/server.js\"",
+    "start": "npm run build & node lib/server.js"
+  },
+  "keywords": [],
+  "author": "eDokan",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/express": "^4.17.21",
+    "@types/node": "^20.12.13",
+    "concurrently": "^8.2.2",
+    "nodemon": "^3.1.2",
+    "typescript": "^5.4.5"
+  },
+  "dependencies": {
+    "express": "^4.19.2"
+  }
+}
