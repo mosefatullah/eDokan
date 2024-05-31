@@ -3,7 +3,7 @@ dotenv.config();
 
 /* 
 * Name: eDokan
-* Description: An E-Commerce Store Application
+* Description: eDokan revolutionizes the retail experience, seamlessly integrating physical stalls into the online realm, elevating productivity and skyrocketing sales.
 */
 import express from "express";
 import mongoose from "mongoose";

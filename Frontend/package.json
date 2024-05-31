@@ -1,5 +1,6 @@
 {
   "name": "edokan-client",
+  "description": "eDokan revolutionizes the retail experience, seamlessly integrating physical stalls into the online realm, elevating productivity and skyrocketing sales.",
   "private": true,
   "version": "0.0.0",
   "type": "module",

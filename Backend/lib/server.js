@@ -7,7 +7,7 @@ const dotenv_1 = __importDefault(require("dotenv"));
 dotenv_1.default.config();
 /*
 * Name: eDokan
-* Description: An E-Commerce Store Application
+* Description: eDokan revolutionizes the retail experience, seamlessly integrating physical stalls into the online realm, elevating productivity and skyrocketing sales.
 */
 const express_1 = __importDefault(require("express"));
 const mongoose_1 = __importDefault(require("mongoose"));
