@@ -1,7 +1,13 @@
+import Navbar from "./components/Navbar"
 
-export default function Layout({ children }) {
+Layout.defaultProps = {
+    navbar: true
+}
+
+export default function Layout({ children, navbar }: { children: React.ReactNode, navbar: boolean }) {
     return (
-        <div>
+        <div className="bg-gray-950 text-white relative">
+            <nav>{navbar && <Navbar />}</nav>
             <main>{children}</main>
         </div>
     )
