@@ -5,7 +5,7 @@ export default function Navbar() {
     const [isServiceMenuOpen, setServiceMenuOpen] = useState(false);
     return (
         <>
-            <div className="w-full max-w-screen-xl mx-auto h-[80px] flex items-center gap-12 px-4">
+            <div className="w-full max-w-screen-xl mx-auto h-[80px] flex items-center gap-12">
                 <div className="flex items-center">
                     <img src="/logo-blank.png" alt="eDokan" className="h-8" />
                     <h1 className="text-3xl font-bold font-logo tracking-wide -mt-1">
