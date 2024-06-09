@@ -2,16 +2,16 @@ import { useState } from "react";
 import { NavLink } from "react-router-dom";
 
 export default function Navbar() {
-    const [isServiceMenuOpen, setServiceMenuOpen] = useState(false);
+    const [isServiceMenuOpen, setServiceMenuOpen] = useState<boolean>(false);
     return (
         <>
             <div className="w-full max-w-screen-xl mx-auto h-[80px] flex items-center gap-12">
-                <div className="flex items-center">
+                <NavLink to="/" className="flex items-center">
                     <img src="/logo-blank.png" alt="eDokan" className="h-8" />
-                    <h1 className="text-3xl font-bold font-logo tracking-wide -mt-1">
+                    <h1 className="self-center text-xl font-semibold sm:text-2xl whitespace-nowrap dark:text-white1 -ml-1">
                         Dokan
                     </h1>
-                </div>
+                </NavLink>
 
                 <nav>
                     <ul className="flex items-center gap-6 select-none">

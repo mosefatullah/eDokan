@@ -3,11 +3,11 @@ import defaultTheme from "tailwindcss/defaultTheme";
 
 export default {
  content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
+ defaultTheme: "light",
  theme: {
   extend: {
    fontFamily: {
-    sans: ['"Lato"', ...defaultTheme.fontFamily.sans],
-    logo: ['"Jaini"', ...defaultTheme.fontFamily.sans],
+    sans: ['"Lato"', ...defaultTheme.fontFamily.sans]
    },
   },
  },

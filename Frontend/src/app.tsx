@@ -1,6 +1,8 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Layout from "./layout";
-import Home from "./pages/home";
+import Layout from "./pages/layout";
+import AppLayout from "./pages/app/layout";
+import Home from "./pages/index";
+import Dashboard from "./pages/app/index";
 
 export default function App() {
   return (
@@ -12,6 +14,14 @@ export default function App() {
             <Layout flexBetween>
               <Home />
             </Layout>
+          }
+        />
+        <Route
+          path="/app/"
+          element={
+            <AppLayout flexBetween>
+              <Dashboard />
+            </AppLayout>
           }
         />
         <Route
