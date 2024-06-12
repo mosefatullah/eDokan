@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 
 export default function Navbar() {
     const [isServiceMenuOpen, setServiceMenuOpen] = useState<boolean>(false);
@@ -8,7 +8,7 @@ export default function Navbar() {
             <div className="w-full max-w-screen-xl mx-auto h-[80px] flex items-center gap-12">
                 <NavLink to="/" className="flex items-center">
                     <img src="/logo-blank.png" alt="eDokan" className="h-8" />
-                    <h1 className="self-center text-xl font-semibold sm:text-2xl whitespace-nowrap dark:text-white1 -ml-1">
+                    <h1 className="self-center text-xl font-semibold sm:text-2xl whitespace-nowrap -ml-1">
                         Dokan
                     </h1>
                 </NavLink>
@@ -37,15 +37,19 @@ export default function Navbar() {
                 </nav>
 
                 <div className="flex items-center gap-3 ms-auto">
-                    <button type="button" className="text-white bg-gray-700 hover:bg-gray-800 font-medium rounded-lg px-5 py-2 text-center">
-                        Login
-                    </button>
-                    <button type="button" className="text-white bg-blue-700 hover:bg-blue-800 font-medium rounded-lg px-5 py-2 text-center inline-flex items-center">
-                        Get Started
-                        <svg className="rtl:rotate-180 w-3.5 h-3.5 ms-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
-                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5h12m0 0L9 1m4 4L9 9" />
-                        </svg>
-                    </button>
+                    <Link to="/account/login">
+                        <button type="button" className="text-white bg-gray-700 hover:bg-gray-800 font-medium rounded-lg px-5 py-2 text-center">
+                            Login
+                        </button>
+                    </Link>
+                    <Link to="/get-started">
+                        <button type="button" className="text-white bg-blue-700 hover:bg-blue-800 font-medium rounded-lg px-5 py-2 text-center inline-flex items-center">
+                            Get Started
+                            <svg className="rtl:rotate-180 w-3.5 h-3.5 ms-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5h12m0 0L9 1m4 4L9 9" />
+                            </svg>
+                        </button>
+                    </Link>
                 </div>
             </div>
 
