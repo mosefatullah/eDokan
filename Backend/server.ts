@@ -1,10 +1,10 @@
 import dotenv from "dotenv";
 dotenv.config();
 
-/* 
-* Name: eDokan
-* Description: eDokan revolutionizes the retail experience, seamlessly integrating physical stalls into the online realm, elevating productivity and skyrocketing sales.
-*/
+/*
+ * Name: eDokan
+ * Description: eDokan revolutionizes the retail experience, seamlessly integrating physical stalls into the online realm, elevating productivity and skyrocketing sales.
+ */
 import express from "express";
 import mongoose from "mongoose";
 import cors from "cors";
@@ -19,11 +19,10 @@ const app = express();
 app.use(express.json());
 app.use(
  cors({
-  origin: "http://localhost:5173",
+  origin: process.env.FRONTEND_URL || "*",
   methods: "GET,PUT,POST,DELETE",
  })
 );
-
 
 /* MongoDB Connection */
 mongoose
@@ -45,5 +44,5 @@ app.use((err: any, req: any, res: any, next: Function) => {
 });
 
 /* Server Initialization */
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 1000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

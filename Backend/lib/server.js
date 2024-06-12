@@ -6,9 +6,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const dotenv_1 = __importDefault(require("dotenv"));
 dotenv_1.default.config();
 /*
-* Name: eDokan
-* Description: eDokan revolutionizes the retail experience, seamlessly integrating physical stalls into the online realm, elevating productivity and skyrocketing sales.
-*/
+ * Name: eDokan
+ * Description: eDokan revolutionizes the retail experience, seamlessly integrating physical stalls into the online realm, elevating productivity and skyrocketing sales.
+ */
 const express_1 = __importDefault(require("express"));
 const mongoose_1 = __importDefault(require("mongoose"));
 const cors_1 = __importDefault(require("cors"));
@@ -19,7 +19,7 @@ const app = (0, express_1.default)();
 /* Express Middlewares */
 app.use(express_1.default.json());
 app.use((0, cors_1.default)({
-    origin: "http://localhost:5173",
+    origin: process.env.FRONTEND_URL || "*",
     methods: "GET,PUT,POST,DELETE",
 }));
 /* MongoDB Connection */
@@ -39,6 +39,6 @@ app.use((err, req, res, next) => {
     });
 });
 /* Server Initialization */
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 1000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 //# sourceMappingURL=server.js.map

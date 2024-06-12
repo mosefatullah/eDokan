@@ -13,11 +13,14 @@ function login(username: string, password: string) {
  })
   .then((response) => response.json())
   .then((data) => {
-   if (data.status === 200) {
-    alert(data.message);
-   } else {
-    alert(data.message);
+   if (data.accessToken) {
+    window.localStorage.setItem("access-token", data.accessToken);
    }
+   alert(data.message);
+
+   setTimeout(() => {
+    window.location.href = "/app";
+   }, 1000);
   })
   .catch((error) => {
    alert(error.message);
@@ -38,10 +41,38 @@ function signup(username: string, email: string, password: string) {
  })
   .then((response) => response.json())
   .then((data) => {
-   if (data.status === 201) {
-    alert(data.message);
+   if (data.accessToken) {
+    window.localStorage.setItem("access-token", data.accessToken);
+   }
+   alert(data.message);
+
+   setTimeout(() => {
+    window.location.href = "/app";
+   }, 1000);
+  })
+  .catch((error) => {
+   alert(error.message);
+  });
+}
+
+function loginWithGoogle() {
+ fetch(url + "/account/login/google", {
+  method: "POST",
+  headers: {
+   "Content-Type": "application/json",
+  },
+ })
+  .then((response) => {
+   if (response.ok) {
+    return response.json();
+   }
+   throw new Error("Network response was not ok.");
+  })
+  .then((data) => {
+   if (data.url) {
+    window.location.href = data.url;
    } else {
-    alert(data.message);
+    console.log("No URL found in the response.");
    }
   })
   .catch((error) => {
@@ -49,4 +80,31 @@ function signup(username: string, email: string, password: string) {
   });
 }
 
-export { login, signup };
+async function verifyToken(
+ error: (arg0: { error: unknown }) => void,
+ callback: (arg0: unknown) => void
+) {
+ return await fetch(url + "/account/login/verify", {
+  method: "GET",
+  headers: {
+   "Content-Type": "application/json",
+   "Access-Control-Allow-Origin": "*",
+   Authorization: `Bearer ${localStorage.getItem("access-token")}`,
+  },
+ })
+  .then((res) => res.json())
+  .then((data) => {
+   if (data.error) {
+    error(data);
+   } else {
+    callback(data);
+   }
+  })
+  .catch((err) => {
+   error({
+    error: err.message,
+   });
+  });
+}
+
+export { login, signup, loginWithGoogle, verifyToken };

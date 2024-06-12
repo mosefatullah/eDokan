@@ -22,7 +22,7 @@ export default function Navbar() {
                             }>
                             <span>Services</span>
                             <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6" className={"w-3 h-3 ms-1 mt-1" + (isServiceMenuOpen ? "transform rotate-180" : "")}>
-                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="m1 1 4 4 4-4" />
+                                <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1" d="m1 1 4 4 4-4" />
                             </svg></li>
                         <NavLink to="/docs" className="hover:text-blue-500">
                             <li>Documentation</li>
@@ -46,7 +46,7 @@ export default function Navbar() {
                         <button type="button" className="text-white bg-blue-700 hover:bg-blue-800 font-medium rounded-lg px-5 py-2 text-center inline-flex items-center">
                             Get Started
                             <svg className="rtl:rotate-180 w-3.5 h-3.5 ms-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
-                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5h12m0 0L9 1m4 4L9 9" />
+                                <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M1 5h12m0 0L9 1m4 4L9 9" />
                             </svg>
                         </button>
                     </Link>
