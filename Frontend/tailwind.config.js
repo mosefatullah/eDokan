@@ -22,7 +22,7 @@ export default {
     },
    },
    fontFamily: {
-    sans: ['"Montserrat"', ...defaultTheme.fontFamily.sans],
+    sans: ['"Ubuntu"', ...defaultTheme.fontFamily.sans],
    },
    keyframes: {
     cursor: {
