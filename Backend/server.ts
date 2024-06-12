@@ -9,6 +9,9 @@ import express from "express";
 import mongoose from "mongoose";
 import cors from "cors";
 
+/* Importing Handlers */
+import routesHandler from "./handlers/routesHandler";
+
 /* Express App Initializaion */
 const app = express();
 
@@ -16,7 +19,7 @@ const app = express();
 app.use(express.json());
 app.use(
  cors({
-  origin: "*",
+  origin: "http://localhost:5173",
   methods: "GET,PUT,POST,DELETE",
  })
 );
@@ -28,13 +31,8 @@ mongoose
  .then(() => console.log("Connected to MongoDB"))
  .catch((err) => console.log(err));
 
-/* Application Routes */
-app.get("/", (req: any, res: any) => {
- const currentTime = new Date().toLocaleTimeString();
- res.send(
-  `<!DOCTYPE html><html><head><title>Current Time</title></head><body><p>${currentTime}</p></body></html>`
- );
-});
+/* Application Route */
+app.use("/api/v1/", routesHandler);
 
 /* Error Handling */
 app.use((err: any, req: any, res: any, next: Function) => {

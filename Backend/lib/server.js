@@ -12,12 +12,14 @@ dotenv_1.default.config();
 const express_1 = __importDefault(require("express"));
 const mongoose_1 = __importDefault(require("mongoose"));
 const cors_1 = __importDefault(require("cors"));
+/* Importing Handlers */
+const routesHandler_1 = __importDefault(require("./handlers/routesHandler"));
 /* Express App Initializaion */
 const app = (0, express_1.default)();
 /* Express Middlewares */
 app.use(express_1.default.json());
 app.use((0, cors_1.default)({
-    origin: "*",
+    origin: "http://localhost:5173",
     methods: "GET,PUT,POST,DELETE",
 }));
 /* MongoDB Connection */
@@ -25,11 +27,8 @@ mongoose_1.default
     .connect(process.env.MONGODB_URI || "")
     .then(() => console.log("Connected to MongoDB"))
     .catch((err) => console.log(err));
-/* Application Routes */
-app.get("/", (req, res) => {
-    const currentTime = new Date().toLocaleTimeString();
-    res.send(`<!DOCTYPE html><html><head><title>Current Time</title></head><body><p>${currentTime}</p></body></html>`);
-});
+/* Application Route */
+app.use("/api/v1/", routesHandler_1.default);
 /* Error Handling */
 app.use((err, req, res, next) => {
     if (req.headersSent) {

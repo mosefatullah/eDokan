@@ -1,6 +1,12 @@
 import { Link } from "react-router-dom";
+import { login } from "../../../utils/account";
 
 export default function Login() {
+  function loginAction() {
+    const username = document.getElementById("username") as HTMLInputElement || "";
+    const password = document.getElementById("password") as HTMLInputElement || "";
+    login(username.value, password.value);
+  }
   return (
     <>
       <div className="flex flex-col items-center justify-center p-6 mx-auto lg:py-0">
@@ -23,10 +29,10 @@ export default function Login() {
               <span className="mx-2 text-sm font-medium dark:text-gray-400">Or</span>
               <div className="h-px bg-gray-300 dark:bg-gray-600 w-16 sm:w-20"></div>
             </div>
-            <form className="space-y-4 md:space-y-6" action="#">
+            <form className="space-y-4 md:space-y-6" onSubmit={(e) => { e.preventDefault(); loginAction(); return false }}>
               <div>
-                <label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your email</label>
-                <input type="email" name="email" id="email" className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="name@company.com" required />
+                <label htmlFor="username" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Username or email</label>
+                <input type="text" name="username" id="username" className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="name@company.com" required />
               </div>
               <div>
                 <label htmlFor="password" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Password</label>
