@@ -10,21 +10,24 @@ function login(username: string, password: string) {
    username: username,
    password: password,
   }),
- })
-  .then((response) => response.json())
-  .then((data) => {
-   if (data.accessToken) {
-    window.localStorage.setItem("access-token", data.accessToken);
-   }
-   alert(data.message);
+ }).then((response) => {
+  if (response.ok) {
+   response.json().then((data) => {
+    if (data.accessToken) {
+     window.localStorage.setItem("access-token", data.accessToken);
+    }
+    alert(data.message);
 
-   setTimeout(() => {
-    window.location.href = "/app";
-   }, 500);
-  })
-  .catch((error) => {
-   alert(error.message);
-  });
+    setTimeout(() => {
+     window.location.href = "/app";
+    }, 500);
+   });
+  } else {
+   response.json().then((data) => {
+    alert(data.message);
+   });
+  }
+ });
 }
 
 function signup(username: string, email: string, password: string) {
@@ -38,21 +41,24 @@ function signup(username: string, email: string, password: string) {
    email: email,
    password: password,
   }),
- })
-  .then((response) => response.json())
-  .then((data) => {
-   if (data.accessToken) {
-    window.localStorage.setItem("access-token", data.accessToken);
-   }
-   alert(data.message);
+ }).then((response) => {
+  if (response.ok) {
+   response.json().then((data) => {
+    if (data.accessToken) {
+     window.localStorage.setItem("access-token", data.accessToken);
+    }
+    alert(data.message);
 
-   setTimeout(() => {
-    window.location.href = "/app";
-   }, 500);
-  })
-  .catch((error) => {
-   alert(error.message);
-  });
+    setTimeout(() => {
+     window.location.href = "/app";
+    }, 500);
+   });
+  } else {
+   response.json().then((data) => {
+    alert(data.message);
+   });
+  }
+ });
 }
 
 function loginWithGoogle() {
@@ -61,50 +67,45 @@ function loginWithGoogle() {
   headers: {
    "Content-Type": "application/json",
   },
- })
-  .then((response) => {
-   if (response.ok) {
-    return response.json();
-   }
-   throw new Error("Network response was not ok.");
-  })
-  .then((data) => {
-   if (data.url) {
-    window.location.href = data.url;
-   } else {
-    console.log("No URL found in the response.");
-   }
-  })
-  .catch((error) => {
-   alert(error.message);
-  });
+ }).then((response) => {
+  if (response.ok) {
+   response.json().then((data) => {
+    if (data.url) {
+     window.location.href = data.url;
+    } else {
+     console.log("No URL found in the response.");
+    }
+   });
+  } else {
+   response.json().then((data) => {
+    alert(data.message);
+   });
+  }
+ });
 }
 
-async function verifyToken(
- error: (arg0: { error: unknown }) => void,
+function verifyToken(
+ error: (arg0: { error: string }) => void,
  callback: (arg0: unknown) => void
 ) {
- return await fetch(url + "/account/login/verify", {
+ fetch(url + "/account/login/verify", {
   method: "GET",
   headers: {
    "Content-Type": "application/json",
    "Access-Control-Allow-Origin": "*",
    Authorization: `Bearer ${localStorage.getItem("access-token")}`,
   },
- })
-  .then((res) => res.json())
-  .then((data) => {
-   if (data.error) {
-    error(data);
-   } else {
+ }).then((res) => {
+  if (res.ok) {
+   res.json().then((data) => {
     callback(data);
-   }
-  })
-  .catch((err) => {
-   error({
-    error: err.message,
    });
-  });
+  } else {
+   res.json().then((data) => {
+    error(data);
+   });
+  }
+ });
 }
 
 function logout() {
@@ -114,17 +115,45 @@ function logout() {
    "Content-Type": "application/json",
    Authorization: `Bearer ${localStorage.getItem("access-token")}`,
   },
- })
-  .then((response) => response.json())
-  .then((data) => {
-   if (data.message) {
-    localStorage.removeItem("access-token");
-    window.location.href = "/account/login";
-   }
-  })
-  .catch((error) => {
-   alert(error.message);
-  });
+ }).then((response) => {
+  if (response.ok) {
+   localStorage.removeItem("access-token");
+   window.location.href = "/account/login";
+  } else {
+   response.json().then((data) => {
+    alert(data.message);
+   });
+  }
+ });
 }
 
-export { login, signup, loginWithGoogle, verifyToken, logout };
+type SuccessCallback = (data: object) => void;
+type ErrorCallback = (error: { message: string }) => void;
+
+function resetPassword(
+ email: string,
+ success: SuccessCallback,
+ error: ErrorCallback
+) {
+ fetch(url + "/account/login/reset-password", {
+  method: "POST",
+  headers: {
+   "Content-Type": "application/json",
+  },
+  body: JSON.stringify({
+   email: email,
+  }),
+ }).then((response) => {
+  if (!response.ok) {
+   response.json().then((data) => {
+    error(data);
+   });
+  } else {
+   response.json().then((data) => {
+    success(data);
+   });
+  }
+ });
+}
+
+export { login, signup, loginWithGoogle, verifyToken, logout, resetPassword };

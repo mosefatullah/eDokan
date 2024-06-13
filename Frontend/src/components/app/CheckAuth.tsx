@@ -10,8 +10,9 @@ export default function CheckLogin(
         setTimeout(() => {
             if (window.localStorage.getItem("access-token") !== null) {
                 verifyToken(
-                    () => {
+                    (e) => {
                         setIsLogin(false);
+                        alert(e.error);
                         window.location.href = "/account/login";
                     },
                     () => {

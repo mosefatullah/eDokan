@@ -14,7 +14,7 @@ const checkLogin = async (req: any, res: any, next: Function) => {
    decoded["app_metadata"]["provider"] === "google"
   ) {
    const user = await User.findOne({ email: { address: decoded["email"] } });
-   if (!user) next("Authentication failed!");
+   if (!user) next("Authentication failed or user not found!");
    else {
     user.lastLoggedinAt = new Date();
     user.picture =
@@ -31,7 +31,7 @@ const checkLogin = async (req: any, res: any, next: Function) => {
    }
   } else {
    const user = await User.findOne({ _id: decoded["userId"] });
-   if (!user) next("Authentication failed!");
+   if (!user) next("Authentication failed or user not found!");
    else {
     user.lastLoggedinAt = new Date();
     await user.save();

@@ -52,7 +52,7 @@ router.post("/login", async (req, res) => {
     );
     res.status(200).json({
      message: "Successfully logged in!",
-     accessToken: token
+     accessToken: token,
     });
    } else {
     res.status(401).json({
@@ -138,6 +138,35 @@ router.post("/logout", checkAuth, async (req, res) => {
   res.status(200).json({
    message: "Successfully logged out!",
   });
+ } catch (err: any) {
+  res.status(500).json({
+   message: "Some error occurred!",
+  });
+  console.error(err.message);
+ }
+});
+
+/* POST - reset password */
+router.post("/login/reset-password", async (req, res) => {
+ try {
+  const { data, error } = await supabase.auth.resetPasswordForEmail(
+   req.body.email,
+   {
+    redirectTo: process.env.FRONTEND_PASSWORD_RESET,
+   }
+  );
+
+  if (error) {
+   res.status(500).json({
+    message: error.message,
+   });
+   console.error(error.message);
+  } else {
+   res.status(200).json({
+    message: "Password reset link sent!",
+    data: data,
+   });
+  }
  } catch (err: any) {
   res.status(500).json({
    message: "Some error occurred!",

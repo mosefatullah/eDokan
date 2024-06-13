@@ -6,6 +6,8 @@ import Home from "./pages/index";
 import Dashboard from "./pages/app/index";
 import Login from "./pages/account/login";
 import Signup from "./pages/account/signup";
+import ResetPassword from "./pages/account/login/reset-password";
+import ChangePassword from "./pages/account/login/change-password";
 
 export default function App() {
   return (
@@ -24,6 +26,22 @@ export default function App() {
           element={
             <Layout flexBetween>
               <Login />
+            </Layout>
+          }
+        />
+        <Route
+          path="/account/login/reset-password"
+          element={
+            <Layout flexBetween>
+              <ResetPassword />
+            </Layout>
+          }
+        />
+        <Route
+          path="/account/login/change-password"
+          element={
+            <Layout flexBetween>
+              <ChangePassword />
             </Layout>
           }
         />
