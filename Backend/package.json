@@ -2,12 +2,12 @@
   "name": "edokan-server",
   "description": "eDokan revolutionizes the retail experience, seamlessly integrating physical stalls into the online realm, elevating productivity and skyrocketing sales.",
   "version": "1.0.0",
-  "main": "lib/server.js",
+  "main": "build/server.js",
   "scripts": {
     "build": "tsc",
     "build:watch": "tsc --watch",
-    "dev": "concurrently \"npm run build:watch\" \"nodemon lib/server.js\"",
-    "start": "npm run build & node lib/server.js"
+    "dev": "concurrently \"npm run build:watch\" \"nodemon build/server.js\"",
+    "start": "npm run build & node build/server.js"
   },
   "keywords": [],
   "author": "eDokan",

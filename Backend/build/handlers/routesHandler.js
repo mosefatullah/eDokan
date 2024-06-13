@@ -7,7 +7,7 @@ const express_1 = __importDefault(require("express"));
 /* Importing Handlers */
 const accountHandler_1 = __importDefault(require("./accountHandler"));
 const router = express_1.default.Router();
-/* Application Routes */
+/* All Routes */
 router.use("/account", accountHandler_1.default);
 exports.default = router;
 //# sourceMappingURL=routesHandler.js.map

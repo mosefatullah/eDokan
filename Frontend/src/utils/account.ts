@@ -20,7 +20,7 @@ function login(username: string, password: string) {
 
    setTimeout(() => {
     window.location.href = "/app";
-   }, 1000);
+   }, 500);
   })
   .catch((error) => {
    alert(error.message);
@@ -48,7 +48,7 @@ function signup(username: string, email: string, password: string) {
 
    setTimeout(() => {
     window.location.href = "/app";
-   }, 1000);
+   }, 500);
   })
   .catch((error) => {
    alert(error.message);
@@ -107,4 +107,24 @@ async function verifyToken(
   });
 }
 
-export { login, signup, loginWithGoogle, verifyToken };
+function logout() {
+ fetch(url + "/account/logout", {
+  method: "POST",
+  headers: {
+   "Content-Type": "application/json",
+   Authorization: `Bearer ${localStorage.getItem("access-token")}`,
+  },
+ })
+  .then((response) => response.json())
+  .then((data) => {
+   if (data.message) {
+    localStorage.removeItem("access-token");
+    window.location.href = "/account/login";
+   }
+  })
+  .catch((error) => {
+   alert(error.message);
+  });
+}
+
+export { login, signup, loginWithGoogle, verifyToken, logout };

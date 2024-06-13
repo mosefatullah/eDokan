@@ -5,7 +5,7 @@ import accountHandler from "./accountHandler";
 
 const router = express.Router();
 
-/* Application Routes */
+/* All Routes */
 router.use("/account", accountHandler);
 
 export default router;
