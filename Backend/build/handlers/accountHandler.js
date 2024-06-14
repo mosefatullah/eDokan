@@ -74,17 +74,54 @@ router.post("/login", async (req, res) => {
 });
 /* POST - login: google */
 router.post("/login/google", async (req, res) => {
-    try {
-        const { data, error } = await supabase_config_1.default.auth.signInWithOAuth({
-            provider: "google",
-            options: {
-                redirectTo: process.env.FRONTEND_APP,
-                queryParams: {
-                    access_type: "offline",
-                    prompt: "consent",
-                },
+    const { data, error } = await supabase_config_1.default.auth.signInWithOAuth({
+        provider: "google",
+        options: {
+            redirectTo: process.env.FRONTEND_APP,
+            queryParams: {
+                access_type: "offline",
+                prompt: "consent",
             },
+        },
+    });
+    if (error) {
+        res.status(500).json({
+            message: "Some error occurred!",
         });
+        console.error(error.message);
+    }
+    else {
+        res.status(200).json({ url: data.url });
+    }
+});
+/* POST - signup: google */
+router.post("/signup/google", async (req, res) => {
+    const { data, error } = await supabase_config_1.default.auth.signInWithOAuth({
+        provider: "google",
+        options: {
+            redirectTo: process.env.FRONTEND_SIGNUP_CALLBACK,
+            queryParams: {
+                access_type: "offline",
+                prompt: "consent",
+            },
+        },
+    });
+    if (error) {
+        res.status(500).json({
+            message: "Some error occurred!",
+        });
+        console.error(error.message);
+    }
+    else {
+        res.status(200).json({ url: data.url });
+    }
+});
+/* POST - signup: callback */
+router.post("/signup/callback", async (req, res) => {
+    var _a, _b;
+    if (req.headers.authorization) {
+        var token = req.headers.authorization.split(" ")[1];
+        const { data, error } = await supabase_config_1.default.auth.getUser(token);
         if (error) {
             res.status(500).json({
                 message: "Some error occurred!",
@@ -92,14 +129,26 @@ router.post("/login/google", async (req, res) => {
             console.error(error.message);
         }
         else {
-            res.status(200).json({ url: data.url });
+            User.create({
+                username: ((_a = data.user.user_metadata) === null || _a === void 0 ? void 0 : _a.full_name.toLowerCase().replace(" ", "-")) || "",
+                email: { address: data.user.email || "" },
+                password: "PROVIDER",
+                picture: ((_b = data.user.user_metadata) === null || _b === void 0 ? void 0 : _b.avatar_url) || "",
+            })
+                .then((data) => {
+                res.status(200).json({
+                    message: "Successfully signed up!",
+                    user: data.user,
+                });
+            })
+                .catch((e) => {
+                if (e.code === 11000) {
+                    res.status(400).json({
+                        message: "User already exists! please login",
+                    });
+                }
+            });
         }
-    }
-    catch (err) {
-        res.status(500).json({
-            message: "Some error occurred!",
-        });
-        console.error(err.message);
     }
 });
 /* POST - singup: username, email, password */
@@ -149,29 +198,25 @@ router.post("/logout", checkAuth_1.default, async (req, res) => {
 });
 /* POST - reset password */
 router.post("/login/reset-password", async (req, res) => {
-    try {
-        const { data, error } = await supabase_config_1.default.auth.resetPasswordForEmail(req.body.email, {
-            redirectTo: process.env.FRONTEND_PASSWORD_RESET,
-        });
-        if (error) {
-            res.status(500).json({
-                message: error.message,
-            });
-            console.error(error.message);
-        }
-        else {
-            res.status(200).json({
-                message: "Password reset link sent!",
-                data: data,
-            });
-        }
-    }
-    catch (err) {
+    const { data, error } = await supabase_config_1.default.auth.resetPasswordForEmail(req.body.email, {
+        redirectTo: process.env.FRONTEND_PASSWORD_RESET,
+    });
+    if (error) {
         res.status(500).json({
-            message: "Some error occurred!",
+            message: error.message,
         });
-        console.error(err.message);
+        console.error(error.message);
     }
+    else {
+        res.status(200).json({
+            message: "Password reset link sent!",
+            data: data,
+        });
+    }
+});
+/* GET - get basic user info */
+router.get("/user/basic", checkAuth_1.default, async (req, res) => {
+    res.status(200).json(req.user);
 });
 exports.default = router;
 //# sourceMappingURL=accountHandler.js.map

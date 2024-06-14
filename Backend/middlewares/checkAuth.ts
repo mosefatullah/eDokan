@@ -27,6 +27,7 @@ const checkLogin = async (req: any, res: any, next: Function) => {
       decoded["user_metadata"]["picture"],
      email: decoded["email"],
      userId: user._id,
+     username: user.username,
     };
    }
   } else {
@@ -39,6 +40,7 @@ const checkLogin = async (req: any, res: any, next: Function) => {
      picture: user.picture || null,
      email: user.email.address,
      userId: user._id,
+     username: user.username,
     };
    }
   }

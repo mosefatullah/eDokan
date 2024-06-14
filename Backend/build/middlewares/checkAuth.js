@@ -28,6 +28,7 @@ const checkLogin = async (req, res, next) => {
                         decoded["user_metadata"]["picture"],
                     email: decoded["email"],
                     userId: user._id,
+                    username: user.username,
                 };
             }
         }
@@ -42,6 +43,7 @@ const checkLogin = async (req, res, next) => {
                     picture: user.picture || null,
                     email: user.email.address,
                     userId: user._id,
+                    username: user.username,
                 };
             }
         }

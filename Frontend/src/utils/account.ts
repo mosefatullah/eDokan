@@ -84,6 +84,55 @@ function loginWithGoogle() {
  });
 }
 
+function signupWithGoogle() {
+ fetch(url + "/account/signup/google", {
+  method: "POST",
+  headers: {
+   "Content-Type": "application/json",
+  },
+ }).then((response) => {
+  if (response.ok) {
+   response.json().then((data) => {
+    if (data.url) {
+     window.location.href = data.url;
+    } else {
+     console.log("No URL found in the response.");
+    }
+   });
+  } else {
+   response.json().then((data) => {
+    alert(data.message);
+   });
+  }
+ });
+}
+
+function signupCallback(code: string) {
+ fetch(url + "/account/signup/callback", {
+  method: "POST",
+  headers: {
+   "Content-Type": "application/json",
+   Authorization: `Bearer ${code}`,
+  },
+ }).then((response) => {
+  if (response.ok) {
+   response.json().then((data) => {
+    if (data.accessToken) {
+     window.localStorage.setItem("access-token", data.accessToken);
+    }
+    setTimeout(() => {
+     window.location.href = "/app";
+    }, 500);
+   });
+  } else {
+   response.json().then((data) => {
+    alert(data.message);
+    window.location.href = "/account/signup";
+   });
+  }
+ });
+}
+
 function verifyToken(
  error: (arg0: { error: string }) => void,
  callback: (arg0: unknown) => void
@@ -156,4 +205,34 @@ function resetPassword(
  });
 }
 
-export { login, signup, loginWithGoogle, verifyToken, logout, resetPassword };
+function getUserInfo(success: SuccessCallback) {
+ fetch(url + "/account/user/basic", {
+  method: "GET",
+  headers: {
+   "Content-Type": "application/json",
+   Authorization: `Bearer ${localStorage.getItem("access-token")}`,
+  },
+ }).then((response) => {
+  if (response.ok) {
+   response.json().then((data) => {
+    success(data);
+   });
+  } else {
+   response.json().then((data) => {
+    alert(data.message);
+   });
+  }
+ });
+}
+
+export {
+ login,
+ signup,
+ loginWithGoogle,
+ signupWithGoogle,
+ signupCallback,
+ verifyToken,
+ logout,
+ resetPassword,
+ getUserInfo,
+};

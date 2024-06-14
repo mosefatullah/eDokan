@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import CheckLogin from "../../components/app/CheckAuth";
+import { getUserInfo } from "../../utils/account";
 
 export default function Dashboard() {
   const location = useLocation();
@@ -12,6 +13,11 @@ export default function Dashboard() {
 
     if (token) {
       localStorage.setItem("access-token", token);
+      getUserInfo((info) => {
+        if (info) {
+          localStorage.setItem("user-info", JSON.stringify(info));
+        }
+      });
       setTimeout(() => {
         window.history.replaceState({}, document.title, location.pathname);
       }, 10);

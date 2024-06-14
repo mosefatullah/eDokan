@@ -74,17 +74,55 @@ router.post("/login", async (req, res) => {
 
 /* POST - login: google */
 router.post("/login/google", async (req, res) => {
- try {
-  const { data, error } = await supabase.auth.signInWithOAuth({
-   provider: "google",
-   options: {
-    redirectTo: process.env.FRONTEND_APP,
-    queryParams: {
-     access_type: "offline",
-     prompt: "consent",
-    },
+ const { data, error } = await supabase.auth.signInWithOAuth({
+  provider: "google",
+  options: {
+   redirectTo: process.env.FRONTEND_APP,
+   queryParams: {
+    access_type: "offline",
+    prompt: "consent",
    },
+  },
+ });
+
+ if (error) {
+  res.status(500).json({
+   message: "Some error occurred!",
   });
+  console.error(error.message);
+ } else {
+  res.status(200).json({ url: data.url });
+ }
+});
+
+/* POST - signup: google */
+router.post("/signup/google", async (req, res) => {
+ const { data, error } = await supabase.auth.signInWithOAuth({
+  provider: "google",
+  options: {
+   redirectTo: process.env.FRONTEND_SIGNUP_CALLBACK,
+   queryParams: {
+    access_type: "offline",
+    prompt: "consent",
+   },
+  },
+ });
+
+ if (error) {
+  res.status(500).json({
+   message: "Some error occurred!",
+  });
+  console.error(error.message);
+ } else {
+  res.status(200).json({ url: data.url });
+ }
+});
+
+/* POST - signup: callback */
+router.post("/signup/callback", async (req, res) => {
+ if (req.headers.authorization) {
+  var token = req.headers.authorization.split(" ")[1];
+  const { data, error } = await supabase.auth.getUser(token);
 
   if (error) {
    res.status(500).json({
@@ -92,13 +130,27 @@ router.post("/login/google", async (req, res) => {
    });
    console.error(error.message);
   } else {
-   res.status(200).json({ url: data.url });
+   User.create({
+    username:
+     data.user.user_metadata?.full_name.toLowerCase().replace(" ", "-") || "",
+    email: { address: data.user.email || "" },
+    password: "PROVIDER",
+    picture: data.user.user_metadata?.avatar_url || "",
+   })
+    .then((data: any) => {
+     res.status(200).json({
+      message: "Successfully signed up!",
+      user: data.user,
+     });
+    })
+    .catch((e: any) => {
+     if (e.code === 11000) {
+      res.status(400).json({
+       message: "User already exists! please login",
+      });
+     }
+    });
   }
- } catch (err: any) {
-  res.status(500).json({
-   message: "Some error occurred!",
-  });
-  console.error(err.message);
  }
 });
 
@@ -148,31 +200,29 @@ router.post("/logout", checkAuth, async (req, res) => {
 
 /* POST - reset password */
 router.post("/login/reset-password", async (req, res) => {
- try {
-  const { data, error } = await supabase.auth.resetPasswordForEmail(
-   req.body.email,
-   {
-    redirectTo: process.env.FRONTEND_PASSWORD_RESET,
-   }
-  );
-
-  if (error) {
-   res.status(500).json({
-    message: error.message,
-   });
-   console.error(error.message);
-  } else {
-   res.status(200).json({
-    message: "Password reset link sent!",
-    data: data,
-   });
+ const { data, error } = await supabase.auth.resetPasswordForEmail(
+  req.body.email,
+  {
+   redirectTo: process.env.FRONTEND_PASSWORD_RESET,
   }
- } catch (err: any) {
+ );
+
+ if (error) {
   res.status(500).json({
-   message: "Some error occurred!",
+   message: error.message,
   });
-  console.error(err.message);
+  console.error(error.message);
+ } else {
+  res.status(200).json({
+   message: "Password reset link sent!",
+   data: data,
+  });
  }
+});
+
+/* GET - get basic user info */
+router.get("/user/basic", checkAuth, async (req: any, res) => {
+ res.status(200).json(req.user);
 });
 
 export default router;

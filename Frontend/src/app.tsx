@@ -8,6 +8,7 @@ import Login from "./pages/account/login";
 import Signup from "./pages/account/signup";
 import ResetPassword from "./pages/account/login/reset-password";
 import ChangePassword from "./pages/account/login/change-password";
+import SignupCallback from "./pages/account/signup/callback";
 
 export default function App() {
   return (
@@ -54,6 +55,14 @@ export default function App() {
           }
         />
         <Route
+          path="/account/signup/callback"
+          element={
+            <Layout flexBetween>
+              <SignupCallback />
+            </Layout>
+          }
+        />
+        <Route
           path="/app/"
           element={
             <AppLayout>
@@ -64,7 +73,11 @@ export default function App() {
         <Route
           path="*"
           element={
-            <></>
+            <Layout flexBetween>
+              <div className="flex items-center justify-center">
+                <h1 className="text-2xl font-bold">404 Not Found!</h1>
+              </div>
+            </Layout>
           }
         />
       </Routes>

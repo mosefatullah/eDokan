@@ -30,7 +30,9 @@ export default function Navbar({ isSidebarOpen, setSidebar }: { isSidebarOpen: b
                               onClick={() => setAccountMenu(!isAccountMenuOpen)}
                               data-dropdown-toggle="dropdown-user">
                               <span className="sr-only">Open user menu</span>
-                              <img className="w-8 h-8 rounded-full" src="https://sefatullah.me/favicon.ico" alt="User" />
+                              <img className="w-8 h-8 rounded-full" src={
+                                 localStorage.getItem("user-info") ? JSON.parse(localStorage.getItem("user-info") || "{}").picture : "/avatar.png"
+                              } alt="User" />
                            </button>
                         </div>
                         <div className="z-50 my-4 text-base list-none divide-y divide-gray-100 rounded shadow dark:bg-gray-700 dark:divide-gray-600"
@@ -38,10 +40,17 @@ export default function Navbar({ isSidebarOpen, setSidebar }: { isSidebarOpen: b
                            id="dropdown-user">
                            <div className="px-4 py-3" role="none">
                               <p className="text-sm text-gray-900 dark:text-white" role="none">
-                                 Mehmed Sifatoglu
+                                 {localStorage.getItem("user-info") ?
+                                    JSON.parse(localStorage.getItem("user-info") || "{}")
+                                       ?.username
+                                       ?.replace("-", " ")
+                                       ?.split(" ")
+                                       ?.map((word: string) => word[0].toUpperCase() + word.slice(1))
+                                       ?.join(" ")
+                                    : "USER"}
                               </p>
                               <p className="text-sm font-medium text-gray-900 truncate dark:text-gray-300" role="none">
-                                 mehmed@gmail.com
+                                 {localStorage.getItem("user-info") ? JSON.parse(localStorage.getItem("user-info") || "{}").email : "No email address"}
                               </p>
                            </div>
                            <ul className="py-1" role="none">
