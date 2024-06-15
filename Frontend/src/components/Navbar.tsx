@@ -1,9 +1,20 @@
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Link, NavLink } from "react-router-dom";
 import { logout } from "../utils/account";
 
 export default function Navbar({ isSidebarOpen, setSidebar }: { isSidebarOpen: boolean, setSidebar: (arg0: boolean) => void }) {
    const [isAccountMenuOpen, setAccountMenu] = useState<boolean>(false);
+   const userInfo = useMemo(() => JSON.parse(localStorage.getItem("user-info") || "{}"), []);
+
+   const [profile, setProfile] = useState<string>(userInfo.picture || "/icons/user-icon.png");
+   const [email, setEmail] = useState<string>(userInfo.email || "No email address");
+   const [username, setUsername] = useState<string>(userInfo.username || "USER");
+
+   useEffect(() => {
+      setProfile(userInfo.picture || "/icons/user-icon.png");
+      setEmail(userInfo.email || "No email address");
+      setUsername(userInfo.username || "USER");
+   }, [userInfo]);
    return (
       <>
          <div className="fixed top-0 left-0 z-50 w-full border-b border-gray-200 dark:bg-gray-800 dark:border-gray-700">
@@ -55,26 +66,21 @@ export default function Navbar({ isSidebarOpen, setSidebar }: { isSidebarOpen: b
                               onClick={() => setAccountMenu(!isAccountMenuOpen)}
                               data-dropdown-toggle="dropdown-user">
                               <span className="sr-only">Open user menu</span>
-                              <img className="w-8 h-8 rounded-full" src={
-                                 localStorage.getItem("user-info") ? JSON.parse(localStorage.getItem("user-info") || "{}").picture : "/icons/user-icon.png"
-                              } alt="User" />
+                              <img className="w-8 h-8 rounded-full" src={profile} alt="User" />
                            </button>
                            <div className="z-50 my-4 text-base list-none divide-y divide-gray-100 rounded shadow dark:bg-gray-800 dark:divide-gray-700 border border-gray-100 dark:border-gray-700"
                               style={isAccountMenuOpen ? { position: "absolute", inset: "0px 200px auto auto", margin: 0, transform: "translate3d(193.6px, 58.4px, 0px)" } : { display: "none" }}
                            >
                               <div className="px-4 py-3" role="none">
                                  <p className="text-sm text-gray-900 dark:text-white" role="none">
-                                    {localStorage.getItem("user-info") ?
-                                       JSON.parse(localStorage.getItem("user-info") || "{}")
-                                          ?.username
-                                          ?.replace(/-/g, " ")
-                                          ?.split(" ")
-                                          ?.map((word: string) => word[0].toUpperCase() + word.slice(1))
-                                          ?.join(" ")
-                                       : "USER"}
+                                    {username
+                                       ?.replace(/-/g, " ")
+                                       ?.split(" ")
+                                       ?.map((word: string) => word[0].toUpperCase() + word.slice(1))
+                                       ?.join(" ")}
                                  </p>
                                  <p className="text-sm font-medium text-gray-900 truncate dark:text-gray-300" role="none">
-                                    {localStorage.getItem("user-info") ? JSON.parse(localStorage.getItem("user-info") || "{}").email : "No email address"}
+                                    {email}
                                  </p>
                               </div>
                               <ul className="py-1" role="none" onClick={() => setAccountMenu(false)}>
