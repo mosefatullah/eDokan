@@ -19,7 +19,7 @@ function login(username: string, password: string) {
     alert(data.message);
 
     setTimeout(() => {
-     window.location.href = "/app";
+     window.location.href = "/main#access_token=" + data.accessToken;
     }, 500);
    });
   } else {
@@ -50,7 +50,7 @@ function signup(username: string, email: string, password: string) {
     alert(data.message);
 
     setTimeout(() => {
-     window.location.href = "/app";
+     window.location.href = "/main#access_token=" + data.accessToken;
     }, 500);
    });
   } else {
@@ -121,7 +121,7 @@ function signupCallback(code: string) {
      window.localStorage.setItem("access-token", data.accessToken);
     }
     setTimeout(() => {
-     window.location.href = "/app";
+     window.location.href = "/main";
     }, 500);
    });
   } else {
@@ -167,6 +167,7 @@ function logout() {
  }).then((response) => {
   if (response.ok) {
    localStorage.removeItem("access-token");
+   localStorage.removeItem("user-info");
    window.location.href = "/account/login";
   } else {
    response.json().then((data) => {

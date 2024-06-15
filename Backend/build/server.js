@@ -19,7 +19,7 @@ const app = (0, express_1.default)();
 /* Express Middlewares */
 app.use(express_1.default.json());
 app.use((0, cors_1.default)({
-    origin: process.env.FRONTEND_URL || "*",
+    origin: process.env.FRONTEND_APP || "*",
     methods: "GET,PUT,POST,DELETE",
 }));
 /* MongoDB Connection */

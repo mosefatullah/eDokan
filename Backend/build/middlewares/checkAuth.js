@@ -30,6 +30,7 @@ const checkLogin = async (req, res, next) => {
                     userId: user._id,
                     username: user.username,
                 };
+                next();
             }
         }
         else {
@@ -45,9 +46,9 @@ const checkLogin = async (req, res, next) => {
                     userId: user._id,
                     username: user.username,
                 };
+                next();
             }
         }
-        next();
     }
     catch (_a) {
         next("Authentication failed!");

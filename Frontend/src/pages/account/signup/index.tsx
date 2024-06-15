@@ -3,10 +3,13 @@ import { signup, signupWithGoogle } from "../../../utils/account";
 
 export default function Signup() {
   function signupAction() {
-    const username = document.getElementById("username") as HTMLInputElement || "";
+    const username = (document.getElementById("username") as HTMLInputElement)?.value.
+      toLowerCase().
+      replace(/\s/g, "-").
+      replace(/[^a-zA-Z0-9-]/g, "") || "";
     const email = document.getElementById("email") as HTMLInputElement || "";
     const password = document.getElementById("password") as HTMLInputElement || "";
-    signup(username.value, email.value, password.value);
+    signup(username, email.value, password.value);
   }
   return (
     <div className="flex flex-col items-center justify-center p-6 mx-auto lg:py-0">
@@ -32,7 +35,7 @@ export default function Signup() {
           <form className="space-y-4 md:space-y-6" action="" onSubmit={(e) => { e.preventDefault(); signupAction(); return false }}>
             <div>
               <label htmlFor="username" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Username</label>
-              <input type="text" name="username" id="username" className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="library-of-wisdom" required />
+              <input type="text" name="username" id="username" className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Library of Wisdom" required />
             </div>
             <div>
               <label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your email</label>

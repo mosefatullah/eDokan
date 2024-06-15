@@ -29,6 +29,7 @@ const checkLogin = async (req: any, res: any, next: Function) => {
      userId: user._id,
      username: user.username,
     };
+    next();
    }
   } else {
    const user = await User.findOne({ _id: decoded["userId"] });
@@ -42,9 +43,9 @@ const checkLogin = async (req: any, res: any, next: Function) => {
      userId: user._id,
      username: user.username,
     };
+    next();
    }
   }
-  next();
  } catch {
   next("Authentication failed!");
  }

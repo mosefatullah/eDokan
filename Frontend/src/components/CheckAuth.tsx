@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { verifyToken } from '../../utils/account';
+import { verifyToken } from '../utils/account';
 
 export default function CheckLogin(
     { children }: { children: React.ReactElement }
@@ -13,6 +13,8 @@ export default function CheckLogin(
                     (e) => {
                         setIsLogin(false);
                         alert(e.error);
+                        localStorage.removeItem("access-token");
+                        localStorage.removeItem("user-info");
                         window.location.href = "/account/login";
                     },
                     () => {

@@ -45,6 +45,7 @@ router.post("/login", async (req, res) => {
                 const token = jsonwebtoken_1.default.sign({
                     userId: user._id,
                     username: user.username,
+                    email: user.email.address
                 }, process.env.JWT_SECRET || "", {
                     expiresIn: "14d",
                 });

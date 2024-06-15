@@ -1,18 +1,25 @@
 import Footer from "../components/Footer"
+import Sidebar from "../components/Sidebar"
 import Navbar from "../components/Navbar"
+import { useState } from "react"
 
 Layout.defaultProps = {
     navbar: true,
-    footer: true,
-    flexBetween: false
+    sidebar: true,
+    footer: true
 }
 
-export default function Layout({ children, navbar, footer, flexBetween }: { children: React.ReactNode, navbar: boolean, footer: boolean, flexBetween: boolean }) {
+export default function Layout({ children, navbar, footer, sidebar }: { children: React.ReactNode, navbar: boolean, footer: boolean, sidebar: boolean }) {
+    const [isSidebarOpen, setSidebar] = useState<boolean>(false);
     return (
-        <div className={"edokan-root bg-gray-50 dark:bg-gray-950 text-black dark:text-white" + (flexBetween && " min-h-screen flex flex-col justify-between")}>
-            <nav className="bg-white dark:bg-gray-950 border-b border-gray-200 dark:border-0">{navbar && <Navbar />}</nav>
-            <main className="py-10">{children}</main>
-            <footer>{footer && <Footer />}</footer>
+        <div className="edokan-app bg-gray-950 text-white min-h-screen">
+            <nav>{navbar && <Navbar isSidebarOpen={isSidebarOpen} setSidebar={setSidebar} />}</nav>
+            <aside>{sidebar && <Sidebar isSidebarOpen={isSidebarOpen} setSidebar={setSidebar} />}</aside>
+
+            <main className="sm:ml-64 relative mt-14">
+                <div>{children}</div>
+                <footer>{footer && <Footer />}</footer>
+            </main>
         </div>
     )
 }
